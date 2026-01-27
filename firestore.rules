@@ -1,0 +1,13 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 채팅 메시지 - 누구나 읽기/쓰기 가능 (익명 채팅)
+    match /chats/{region}/messages/{messageId} {
+      allow read: if true;
+      allow create: if request.resource.data.text is string
+                    && request.resource.data.text.size() <= 200
+                    && request.resource.data.nickname is string;
+      allow update, delete: if false;
+    }
+  }
+}

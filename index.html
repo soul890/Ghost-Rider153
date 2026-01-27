@@ -1,14 +1,396 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a1a2e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>고스트라이더 - 배달 전략 도우미</title>
+  <link rel="manifest" href="/manifest.json">
   <link href='/style.css' rel='stylesheet'>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="/firebase-config.js"></script>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+  <div id="app">
+    <!-- 헤더 -->
+    <header class="app-header">
+      <h1>👻 고스트라이더</h1>
+      <p class="tagline">알고리즘을 역이용하자</p>
+    </header>
+
+    <!-- 충성도 경고 배너 -->
+    <div id="loyalty-warning" class="warning-banner hidden">
+      <span class="warning-icon">⚠️</span>
+      <span class="warning-text">수락률이 높습니다. 고절박도 분류 위험!</span>
+    </div>
+
+    <!-- 대시보드 요약 -->
+    <section class="dashboard">
+      <div class="stat-card">
+        <div class="stat-value" id="avg-price">0원</div>
+        <div class="stat-label">평균 단가</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="accept-rate">0%</div>
+        <div class="stat-label">수락률</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="today-earnings">0원</div>
+        <div class="stat-label">오늘 수익</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="app-timer">0분</div>
+        <div class="stat-label">앱 사용시간</div>
+      </div>
+    </section>
+
+    <!-- 최소 단가 설정 -->
+    <section class="min-price-section">
+      <div class="min-price-row">
+        <div class="min-price-item">
+          <div class="min-price-header">
+            <span>최소 단가</span>
+            <span id="min-price-display">3,000원</span>
+          </div>
+          <input type="range" id="min-price-slider" min="2000" max="10000" step="500" value="3000">
+        </div>
+        <div class="min-price-item">
+          <div class="min-price-header">
+            <span>km당 최소</span>
+            <span id="min-price-per-km-display">2,500원</span>
+          </div>
+          <input type="range" id="min-price-per-km-slider" min="1500" max="5000" step="250" value="2500">
+        </div>
+      </div>
+      <p class="min-price-hint">두 조건 중 하나라도 미달 시 거절 권장</p>
+    </section>
+
+    <!-- 탭 네비게이션 -->
+    <nav class="tab-nav">
+      <button class="tab-btn active" data-tab="call">콜 기록</button>
+      <button class="tab-btn" data-tab="memo">현장 메모</button>
+      <button class="tab-btn" data-tab="timer">피로도</button>
+      <button class="tab-btn" data-tab="stats">분석</button>
+    </nav>
+
+    <!-- 탭 콘텐츠 -->
+    <main class="tab-content">
+      <!-- 콜 기록 탭 -->
+      <div id="tab-call" class="tab-panel active">
+        <!-- 원터치 금액 버튼 -->
+        <div class="quick-price-section">
+          <div class="quick-price-header">
+            <span>원터치 금액 (천원)</span>
+            <span id="selected-price-display">-</span>
+          </div>
+          <div class="quick-price-grid">
+            <button class="quick-price-btn" data-price="3000">3.0</button>
+            <button class="quick-price-btn" data-price="3500">3.5</button>
+            <button class="quick-price-btn" data-price="4000">4.0</button>
+            <button class="quick-price-btn" data-price="4500">4.5</button>
+            <button class="quick-price-btn" data-price="5000">5.0</button>
+            <button class="quick-price-btn" data-price="5500">5.5</button>
+            <button class="quick-price-btn" data-price="6000">6.0</button>
+            <button class="quick-price-btn" data-price="7000">7.0</button>
+            <button class="quick-price-btn" data-price="8000">8.0</button>
+            <button class="quick-price-btn" data-price="10000">10</button>
+          </div>
+        </div>
+
+        <!-- 거리 선택 (선택사항) -->
+        <div class="quick-distance-section">
+          <div class="quick-distance-header">
+            <span>거리</span>
+            <span id="selected-distance-display">-</span>
+            <span id="price-per-km-display" class="price-per-km">-</span>
+          </div>
+          <div class="quick-distance-grid">
+            <button class="quick-distance-btn" data-distance="0.5">0.5</button>
+            <button class="quick-distance-btn" data-distance="1.0">1.0</button>
+            <button class="quick-distance-btn" data-distance="1.5">1.5</button>
+            <button class="quick-distance-btn" data-distance="2.0">2.0</button>
+            <button class="quick-distance-btn" data-distance="2.5">2.5</button>
+            <button class="quick-distance-btn" data-distance="3.0">3.0</button>
+          </div>
+        </div>
+
+        <!-- 추천 메시지 -->
+        <div id="call-recommendation" class="recommendation hidden"></div>
+
+        <!-- 큰 수락/거절 버튼 -->
+        <div class="big-action-buttons">
+          <button id="btn-reject" class="btn-big btn-big-reject">
+            <span class="btn-big-icon">✕</span>
+            <span class="btn-big-text">거절</span>
+          </button>
+          <button id="btn-accept" class="btn-big btn-big-accept">
+            <span class="btn-big-icon">✓</span>
+            <span class="btn-big-text">수락</span>
+          </button>
+        </div>
+
+        <!-- 직접 입력 (접기) -->
+        <details class="manual-input-section">
+          <summary>직접 입력</summary>
+          <div class="manual-input-content">
+            <div class="input-row">
+              <div class="input-group">
+                <label>단가</label>
+                <input type="number" id="call-price" placeholder="3500" inputmode="numeric">
+              </div>
+              <div class="input-group">
+                <label>거리</label>
+                <input type="number" id="call-distance" placeholder="1.2" step="0.1" inputmode="decimal">
+              </div>
+            </div>
+            <div class="input-group">
+              <label>가게명 (선택)</label>
+              <input type="text" id="call-store" placeholder="맥도날드 강남점">
+            </div>
+          </div>
+        </details>
+
+        <div class="call-history">
+          <h3>최근 기록</h3>
+          <div id="call-list" class="call-list">
+            <p class="empty-state">아직 기록이 없습니다</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 현장 메모 탭 -->
+      <div id="tab-memo" class="tab-panel">
+        <!-- 메모/채팅 서브탭 -->
+        <div class="memo-subtab">
+          <button class="memo-subtab-btn active" data-subtab="memo">📝 메모</button>
+          <button class="memo-subtab-btn" data-subtab="chat">💬 실시간 채팅</button>
+        </div>
+
+        <!-- 메모 섹션 -->
+        <div id="memo-section" class="memo-subsection active">
+          <div class="memo-input">
+            <h3>빠른 메모</h3>
+            <div class="memo-type-selector">
+              <button class="memo-type-btn active" data-type="store">🏪 가게</button>
+              <button class="memo-type-btn" data-type="destination">🏠 도착지</button>
+              <button class="memo-type-btn" data-type="blacklist">⚫ 블랙</button>
+              <button class="memo-type-btn" data-type="tip">💡 꿀팁</button>
+            </div>
+            <div class="input-group">
+              <label>장소명</label>
+              <div class="memo-input-wrapper">
+                <input type="text" id="memo-place" placeholder="래미안 아파트 101동">
+                <button type="button" id="btn-place-voice" class="btn-input-voice" title="음성 입력">
+                  🎤
+                </button>
+              </div>
+              <p id="place-voice-status" class="memo-voice-status"></p>
+            </div>
+            <div class="input-group">
+              <label>내용</label>
+              <div class="memo-textarea-wrapper">
+                <textarea id="memo-content" placeholder="공동현관 비번: 1234*"></textarea>
+                <button type="button" id="btn-memo-voice" class="btn-memo-voice" title="음성 입력">
+                  🎤
+                </button>
+              </div>
+              <p id="memo-voice-status" class="memo-voice-status"></p>
+            </div>
+            <button id="btn-save-memo" class="btn btn-primary">저장</button>
+          </div>
+
+          <div class="memo-search">
+            <input type="text" id="memo-search-input" placeholder="🔍 장소 검색...">
+          </div>
+
+          <div id="memo-list" class="memo-list">
+            <p class="empty-state">저장된 메모가 없습니다</p>
+          </div>
+        </div>
+
+        <!-- 실시간 채팅 섹션 -->
+        <div id="chat-section" class="memo-subsection">
+          <div class="chat-region-selector">
+            <label>지역 선택</label>
+            <select id="chat-region">
+              <optgroup label="수도권">
+                <option value="seoul">서울특별시</option>
+                <option value="incheon">인천광역시</option>
+                <option value="gyeonggi-south">경기 남부 (수원/성남/용인)</option>
+                <option value="gyeonggi-north">경기 북부 (고양/파주/의정부)</option>
+                <option value="gyeonggi-east">경기 동부 (하남/구리/남양주)</option>
+              </optgroup>
+              <optgroup label="광역시">
+                <option value="busan">부산광역시</option>
+                <option value="daegu">대구광역시</option>
+                <option value="gwangju">광주광역시</option>
+                <option value="daejeon">대전광역시</option>
+                <option value="ulsan">울산광역시</option>
+                <option value="sejong">세종특별자치시</option>
+              </optgroup>
+              <optgroup label="도 지역">
+                <option value="gangwon">강원도</option>
+                <option value="chungbuk">충청북도</option>
+                <option value="chungnam">충청남도</option>
+                <option value="jeonbuk">전라북도</option>
+                <option value="jeonnam">전라남도</option>
+                <option value="gyeongbuk">경상북도</option>
+                <option value="gyeongnam">경상남도</option>
+                <option value="jeju">제주특별자치도</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div class="chat-container">
+            <div id="chat-messages" class="chat-messages">
+              <p class="chat-notice">채팅방에 연결 중...</p>
+            </div>
+          </div>
+
+          <div class="chat-input-area">
+            <input type="text" id="chat-input" placeholder="메시지 입력..." maxlength="200">
+            <button id="btn-send-chat" class="btn-send-chat">전송</button>
+          </div>
+
+          <p class="chat-notice-text">익명 채팅 · 배달 정보 공유 목적</p>
+        </div>
+      </div>
+
+      <!-- 피로도 탭 -->
+      <div id="tab-timer" class="tab-panel">
+        <div class="fatigue-section">
+          <h3>앱별 사용 시간</h3>
+          <div class="app-timers">
+            <div class="app-timer-card" data-app="baemin">
+              <div class="app-icon">🅑</div>
+              <div class="app-name">배민</div>
+              <div class="app-time" id="baemin-time">0분</div>
+              <button class="timer-btn" data-app="baemin">시작</button>
+            </div>
+            <div class="app-timer-card" data-app="coupang">
+              <div class="app-icon">🅒</div>
+              <div class="app-name">쿠팡이츠</div>
+              <div class="app-time" id="coupang-time">0분</div>
+              <button class="timer-btn" data-app="coupang">시작</button>
+            </div>
+            <div class="app-timer-card" data-app="yogiyo">
+              <div class="app-icon">🅨</div>
+              <div class="app-name">요기요</div>
+              <div class="app-time" id="yogiyo-time">0분</div>
+              <button class="timer-btn" data-app="yogiyo">시작</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="rest-recommendation">
+          <h3>휴식 권장</h3>
+          <div id="rest-status" class="rest-status">
+            <p>앱 타이머를 시작하면 피로도를 추적합니다</p>
+          </div>
+          <button id="btn-rest" class="btn btn-secondary">
+            🛑 전체 앱 OFF (휴식 시작)
+          </button>
+        </div>
+
+        <div class="fatigue-tips">
+          <h3>💡 피로도 관리 팁</h3>
+          <ul>
+            <li>2시간마다 다른 앱으로 전환 권장</li>
+            <li>앱을 <strong>완전히 꺼서</strong> 휴식 인식시키기</li>
+            <li>30분 휴식 후 더 좋은 콜 가능성 ↑</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 분석 탭 -->
+      <div id="tab-stats" class="tab-panel">
+        <div class="stats-period">
+          <button class="period-btn active" data-period="today">오늘</button>
+          <button class="period-btn" data-period="week">이번주</button>
+          <button class="period-btn" data-period="month">이번달</button>
+        </div>
+
+        <!-- 수익/지출 요약 -->
+        <div class="income-summary">
+          <div class="income-box income">
+            <span class="income-label">총 수익</span>
+            <span class="income-value" id="stats-earnings">0원</span>
+          </div>
+          <div class="income-box expense">
+            <span class="income-label">총 지출</span>
+            <span class="income-value" id="stats-expense">0원</span>
+          </div>
+          <div class="income-box net">
+            <span class="income-label">순수익</span>
+            <span class="income-value" id="stats-net">0원</span>
+          </div>
+        </div>
+
+        <!-- 지출 입력 -->
+        <details class="expense-section">
+          <summary>💸 지출 기록하기</summary>
+          <div class="expense-input-area">
+            <div class="expense-type-btns">
+              <button class="expense-type-btn active" data-type="food">🍚 식대</button>
+              <button class="expense-type-btn" data-type="fuel">⛽ 유류비</button>
+              <button class="expense-type-btn" data-type="other">📦 기타</button>
+            </div>
+            <div class="expense-input-row">
+              <input type="number" id="expense-amount" placeholder="금액" inputmode="numeric">
+              <input type="text" id="expense-memo" placeholder="메모 (선택)">
+              <button id="btn-add-expense" class="btn-add-expense">추가</button>
+            </div>
+          </div>
+          <div id="expense-list" class="expense-list">
+            <p class="empty-state">오늘 지출 내역이 없습니다</p>
+          </div>
+        </details>
+
+        <div class="stats-cards">
+          <div class="stats-card">
+            <h4>배달 건수</h4>
+            <div class="stats-value" id="stats-deliveries">0건</div>
+          </div>
+          <div class="stats-card">
+            <h4>평균 단가</h4>
+            <div class="stats-value" id="stats-avg-price">0원</div>
+          </div>
+          <div class="stats-card">
+            <h4>거리당 단가</h4>
+            <div class="stats-value" id="stats-price-per-km">0원/km</div>
+          </div>
+          <div class="stats-card">
+            <h4>수락률</h4>
+            <div class="stats-value" id="stats-accept-rate">0%</div>
+          </div>
+        </div>
+
+        <div class="loyalty-analysis">
+          <h3>충성도 분석</h3>
+          <div id="loyalty-meter" class="loyalty-meter">
+            <div class="meter-bar">
+              <div class="meter-fill" id="loyalty-fill"></div>
+            </div>
+            <div class="meter-labels">
+              <span>낮음 (좋음)</span>
+              <span>높음 (위험)</span>
+            </div>
+          </div>
+          <p id="loyalty-advice" class="loyalty-advice"></p>
+        </div>
+
+        <div class="export-section">
+          <button id="btn-export" class="btn btn-secondary">📊 데이터 내보내기</button>
+          <button id="btn-clear" class="btn btn-danger">🗑️ 데이터 초기화</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script defer type="module" src="/main.js"></script>
 </body>
 </html>
