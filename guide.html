@@ -147,6 +147,26 @@
         <p>고스트라이더로 나만의 배달 데이터를 쌓고 분석해 보세요.</p>
         <a href="/" class="btn-cta">앱 시작하기</a>
       </section>
+
+      <!-- 댓글 섹션 -->
+      <section class="guide-comments">
+        <h3>라이더들의 팁 공유</h3>
+        <p>여러분의 배달 노하우를 공유해주세요!</p>
+        <div id="disqus_thread"></div>
+        <script>
+          var disqus_config = function () {
+            this.page.url = 'https://ghost-rider153.pages.dev/guide.html';
+            this.page.identifier = 'ghost-rider-guide';
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            s.src = 'https://https-ghost-rider153-pages-dev.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
+        <noscript>댓글을 보려면 JavaScript를 활성화해주세요.</noscript>
+      </section>
     </main>
 
     <footer class="app-footer">

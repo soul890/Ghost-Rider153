@@ -1836,3 +1836,49 @@ body {
   color: var(--text-secondary);
   margin-bottom: 16px;
 }
+
+/* ====================================
+   커뮤니티/댓글 섹션 스타일
+   ==================================== */
+.community-header {
+  text-align: center;
+  padding: 20px 0;
+  margin-bottom: 16px;
+}
+
+.community-header h3 {
+  font-size: 1.2rem;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.community-header p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.guide-comments {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 24px 20px;
+  margin-top: 24px;
+}
+
+.guide-comments h3 {
+  font-size: 1.1rem;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.guide-comments p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+#disqus_thread {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 16px;
+  min-height: 200px;
+}

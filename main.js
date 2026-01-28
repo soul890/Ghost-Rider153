@@ -513,10 +513,7 @@ function initMemo() {
       document.querySelectorAll('.memo-subsection').forEach(s => s.classList.remove('active'));
       document.getElementById(`${subtab}-section`).classList.add('active');
 
-      // 채팅 탭 선택 시 채팅 초기화
-      if (subtab === 'chat') {
-        initChat();
-      }
+      // Disqus 댓글로 대체됨
     });
   });
 

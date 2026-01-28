@@ -171,7 +171,7 @@
         <!-- 메모/채팅 서브탭 -->
         <div class="memo-subtab">
           <button class="memo-subtab-btn active" data-subtab="memo">📝 메모</button>
-          <button class="memo-subtab-btn" data-subtab="chat">💬 실시간 채팅</button>
+          <button class="memo-subtab-btn" data-subtab="chat">💬 커뮤니티</button>
         </div>
 
         <!-- 메모 섹션 -->
@@ -216,51 +216,26 @@
           </div>
         </div>
 
-        <!-- 실시간 채팅 섹션 -->
+        <!-- 커뮤니티 섹션 (Disqus 댓글) -->
         <div id="chat-section" class="memo-subsection">
-          <div class="chat-region-selector">
-            <label>지역 선택</label>
-            <select id="chat-region">
-              <optgroup label="수도권">
-                <option value="seoul">서울특별시</option>
-                <option value="incheon">인천광역시</option>
-                <option value="gyeonggi-south">경기 남부 (수원/성남/용인)</option>
-                <option value="gyeonggi-north">경기 북부 (고양/파주/의정부)</option>
-                <option value="gyeonggi-east">경기 동부 (하남/구리/남양주)</option>
-              </optgroup>
-              <optgroup label="광역시">
-                <option value="busan">부산광역시</option>
-                <option value="daegu">대구광역시</option>
-                <option value="gwangju">광주광역시</option>
-                <option value="daejeon">대전광역시</option>
-                <option value="ulsan">울산광역시</option>
-                <option value="sejong">세종특별자치시</option>
-              </optgroup>
-              <optgroup label="도 지역">
-                <option value="gangwon">강원도</option>
-                <option value="chungbuk">충청북도</option>
-                <option value="chungnam">충청남도</option>
-                <option value="jeonbuk">전라북도</option>
-                <option value="jeonnam">전라남도</option>
-                <option value="gyeongbuk">경상북도</option>
-                <option value="gyeongnam">경상남도</option>
-                <option value="jeju">제주특별자치도</option>
-              </optgroup>
-            </select>
+          <div class="community-header">
+            <h3>라이더 커뮤니티</h3>
+            <p>배달 팁, 지역 정보, 경험을 공유해주세요!</p>
           </div>
-
-          <div class="chat-container">
-            <div id="chat-messages" class="chat-messages">
-              <p class="chat-notice">채팅방에 연결 중...</p>
-            </div>
-          </div>
-
-          <div class="chat-input-area">
-            <input type="text" id="chat-input" placeholder="메시지 입력..." maxlength="200">
-            <button id="btn-send-chat" class="btn-send-chat">전송</button>
-          </div>
-
-          <p class="chat-notice-text">익명 채팅 · 배달 정보 공유 목적</p>
+          <div id="disqus_thread"></div>
+          <script>
+            var disqus_config = function () {
+              this.page.url = 'https://ghost-rider153.pages.dev/';
+              this.page.identifier = 'ghost-rider-community';
+            };
+            (function() {
+              var d = document, s = d.createElement('script');
+              s.src = 'https://https-ghost-rider153-pages-dev.disqus.com/embed.js';
+              s.setAttribute('data-timestamp', +new Date());
+              (d.head || d.body).appendChild(s);
+            })();
+          </script>
+          <noscript>댓글을 보려면 JavaScript를 활성화해주세요.</noscript>
         </div>
       </div>
 
