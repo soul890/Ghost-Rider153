@@ -79,6 +79,7 @@
       <button class="tab-btn" data-tab="memo">현장 메모</button>
       <button class="tab-btn" data-tab="timer">피로도</button>
       <button class="tab-btn" data-tab="stats">분석</button>
+      <button class="tab-btn" data-tab="community">커뮤니티</button>
     </nav>
 
     <!-- 탭 콘텐츠 -->
@@ -168,12 +169,6 @@
 
       <!-- 현장 메모 탭 -->
       <div id="tab-memo" class="tab-panel">
-        <!-- 메모/채팅 서브탭 -->
-        <div class="memo-subtab">
-          <button class="memo-subtab-btn active" data-subtab="memo">📝 메모</button>
-          <button class="memo-subtab-btn" data-subtab="chat">💬 커뮤니티</button>
-        </div>
-
         <!-- 메모 섹션 -->
         <div id="memo-section" class="memo-subsection active">
           <div class="memo-input">
@@ -214,28 +209,6 @@
           <div id="memo-list" class="memo-list">
             <p class="empty-state">저장된 메모가 없습니다</p>
           </div>
-        </div>
-
-        <!-- 커뮤니티 섹션 (Disqus 댓글) -->
-        <div id="chat-section" class="memo-subsection">
-          <div class="community-header">
-            <h3>라이더 커뮤니티</h3>
-            <p>배달 팁, 지역 정보, 경험을 공유해주세요!</p>
-          </div>
-          <div id="disqus_thread"></div>
-          <script>
-            var disqus_config = function () {
-              this.page.url = 'https://ghost-rider153.pages.dev/';
-              this.page.identifier = 'ghost-rider-community';
-            };
-            (function() {
-              var d = document, s = d.createElement('script');
-              s.src = 'https://https-ghost-rider153-pages-dev.disqus.com/embed.js';
-              s.setAttribute('data-timestamp', +new Date());
-              (d.head || d.body).appendChild(s);
-            })();
-          </script>
-          <noscript>댓글을 보려면 JavaScript를 활성화해주세요.</noscript>
         </div>
       </div>
 
@@ -366,6 +339,28 @@
           <button id="btn-export" class="btn btn-secondary">📊 데이터 내보내기</button>
           <button id="btn-clear" class="btn btn-danger">🗑️ 데이터 초기화</button>
         </div>
+      </div>
+
+      <!-- 커뮤니티 탭 -->
+      <div id="tab-community" class="tab-panel">
+        <div class="community-header">
+          <h3>💬 라이더 커뮤니티</h3>
+          <p>배달 팁, 지역 정보, 경험을 공유해주세요!</p>
+        </div>
+        <div id="disqus_thread"></div>
+        <script>
+          var disqus_config = function () {
+            this.page.url = 'https://ghost-rider153.pages.dev/';
+            this.page.identifier = 'ghost-rider-community';
+          };
+          (function() {
+            var d = document, s = d.createElement('script');
+            s.src = 'https://https-ghost-rider153-pages-dev.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+          })();
+        </script>
+        <noscript>댓글을 보려면 JavaScript를 활성화해주세요.</noscript>
       </div>
     </main>
   </div>

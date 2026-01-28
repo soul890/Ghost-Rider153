@@ -503,20 +503,6 @@ function checkLoyaltyWarning() {
 
 // ==================== 현장 메모 ====================
 function initMemo() {
-  // 서브탭 전환 (메모/채팅)
-  document.querySelectorAll('.memo-subtab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.memo-subtab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const subtab = btn.dataset.subtab;
-      document.querySelectorAll('.memo-subsection').forEach(s => s.classList.remove('active'));
-      document.getElementById(`${subtab}-section`).classList.add('active');
-
-      // Disqus 댓글로 대체됨
-    });
-  });
-
   // 메모 타입 선택
   document.querySelectorAll('.memo-type-btn').forEach(btn => {
     btn.addEventListener('click', () => {
