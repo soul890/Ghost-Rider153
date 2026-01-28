@@ -125,11 +125,6 @@ function initTabs() {
       if (tabId === 'stats') {
         updateStats();
       }
-
-      // 커뮤니티 탭이면 채팅 초기화
-      if (tabId === 'community') {
-        initChat();
-      }
     });
   });
 }

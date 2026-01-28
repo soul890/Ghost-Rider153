@@ -187,11 +187,11 @@ body {
 
 .tab-btn {
   flex: 1;
-  padding: 12px 4px;
+  padding: 12px 8px;
   border: none;
   background: transparent;
   color: var(--text-secondary);
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 600;
   border-radius: 8px;
   cursor: pointer;
