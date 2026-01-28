@@ -1473,3 +1473,366 @@ body {
 .memo-item {
   animation: fadeIn 0.3s ease;
 }
+
+/* ====================================
+   푸터 스타일
+   ==================================== */
+.app-footer {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  padding: 24px 16px;
+  margin-top: 32px;
+  text-align: center;
+}
+
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.footer-nav a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.2s;
+}
+
+.footer-nav a:hover {
+  color: var(--accent);
+}
+
+.footer-contact {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+}
+
+.copyright {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.header-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ====================================
+   법적 페이지 스타일 (개인정보, 이용약관)
+   ==================================== */
+.legal-content {
+  padding: 20px 16px;
+}
+
+.legal-section {
+  margin-bottom: 32px;
+}
+
+.legal-section h2 {
+  font-size: 1.1rem;
+  color: var(--accent);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.legal-section p {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.legal-section ul,
+.legal-section ol {
+  margin-left: 20px;
+  margin-bottom: 12px;
+}
+
+.legal-section li {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.contact-box {
+  background: var(--bg-card);
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+.contact-box p {
+  margin-bottom: 4px;
+}
+
+.contact-box a {
+  color: var(--accent);
+}
+
+.update-date {
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+/* ====================================
+   About 페이지 스타일
+   ==================================== */
+.about-content {
+  padding: 20px 16px;
+}
+
+.about-hero {
+  text-align: center;
+  padding: 32px 0;
+  margin-bottom: 24px;
+}
+
+.about-hero h2 {
+  font-size: 1.5rem;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.hero-desc {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.about-section {
+  margin-bottom: 32px;
+}
+
+.about-section h3 {
+  font-size: 1.15rem;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.about-section p {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.feature-card {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+}
+
+.feature-icon {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.feature-card h4 {
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.feature-card p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 0;
+}
+
+.usage-steps {
+  list-style: none;
+  counter-reset: step;
+}
+
+.usage-steps li {
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  position: relative;
+  padding-left: 50px;
+}
+
+.usage-steps li::before {
+  counter-increment: step;
+  content: counter(step);
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.usage-steps li strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text-primary);
+}
+
+.usage-steps li p {
+  font-size: 0.85rem;
+  margin-bottom: 0;
+}
+
+.btn-cta {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  padding: 14px 32px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-top: 12px;
+  transition: all 0.2s;
+}
+
+.btn-cta:hover {
+  background: var(--accent-light);
+  transform: translateY(-2px);
+}
+
+.contact-section {
+  text-align: center;
+}
+
+/* ====================================
+   가이드 페이지 스타일
+   ==================================== */
+.guide-content {
+  padding: 20px 16px;
+}
+
+.guide-intro {
+  text-align: center;
+  padding: 32px 0;
+  margin-bottom: 24px;
+}
+
+.guide-intro h2 {
+  font-size: 1.5rem;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.guide-intro p {
+  color: var(--text-secondary);
+}
+
+.guide-article {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 24px 20px;
+  margin-bottom: 20px;
+}
+
+.guide-article h3 {
+  font-size: 1.1rem;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.guide-article h4 {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  margin-top: 16px;
+  margin-bottom: 12px;
+}
+
+.guide-article p {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.guide-article ul,
+.guide-article ol {
+  margin-left: 20px;
+  margin-bottom: 12px;
+}
+
+.guide-article li {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.guide-tip {
+  background: rgba(0, 217, 165, 0.1);
+  border: 1px solid var(--success);
+  border-radius: 8px;
+  padding: 14px;
+  margin-top: 16px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.guide-tip strong {
+  color: var(--success);
+}
+
+.guide-example {
+  background: var(--bg-card);
+  border-radius: 8px;
+  padding: 14px;
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.guide-example strong {
+  color: var(--accent);
+}
+
+.guide-warning {
+  background: rgba(255, 71, 87, 0.1);
+  border: 1px solid var(--danger);
+  border-radius: 8px;
+  padding: 14px;
+  margin-top: 16px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.guide-warning strong {
+  color: var(--danger);
+}
+
+.guide-cta {
+  text-align: center;
+  padding: 32px 20px;
+  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-card));
+  border-radius: 16px;
+  margin-top: 24px;
+}
+
+.guide-cta h3 {
+  margin-bottom: 12px;
+}
+
+.guide-cta p {
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
